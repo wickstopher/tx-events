@@ -56,6 +56,7 @@ module Control.Concurrent.TxEvent (
   ) where
 
 import Prelude
+import Control.Applicative
 import Control.Monad
 import qualified Control.Exception as Exception
 import Control.Exception (Exception, SomeException)
@@ -318,8 +319,8 @@ pa $> pb = List.isSuffixOf pb pa
 
 -- Def: The paths pa and pb are /comparable/ if pa extends pb or pb
 -- extends pa.
-(<$>) :: Path -> Path -> Bool
-pa <$> pb = (pa $> pb) || (pb $> pa)
+(<$$>) :: Path -> Path -> Bool
+pa <$$> pb = (pa $> pb) || (pb $> pa)
 
 ----------------------------------------------------------------------
 -- Dependencies
@@ -349,7 +350,7 @@ consistent :: Trail -> Bool
 consistent tr =
     Foldable.all (\ (Trail (SyncId (tid1, b1, _, _), p1)) ->
     Foldable.all (\ (Trail (SyncId (tid2, b2, _, _), p2)) ->
-                      (tid1 == tid2) ==>> ((b1 == b2) && (p1 <$> p2)))
+                      (tid1 == tid2) ==>> ((b1 == b2) && (p1 <$$> p2)))
                  (dep tr))
                  (dep tr)
 
@@ -436,7 +437,7 @@ coherent trs@(Trail (SyncId (tids, bs, _, _), ps))
     -- other dependency.
     Foldable.all (\ (Trail (SyncId (tid1, b1, _, _), p1)) ->
     Foldable.all (\ (Trail (SyncId (tid2, b2, _, _), p2)) ->
-                      (tid1 == tid2) ==>> ((b1 == b2) && (p1 <$> p2)))
+                      (tid1 == tid2) ==>> ((b1 == b2) && (p1 <$$> p2)))
                  (dep trr))
                  (dep trs)
 
@@ -760,6 +761,18 @@ instance Functor Evt
     where
       {-# INLINE fmap   #-}
       fmap f evt = evt >>= return . f
+instance Applicative Evt
+	where
+	  {-# INLINE pure   #-}
+	  {-# INLINE (<*>)  #-}
+	  pure = alwaysEvt
+	  (<*>) = ap
+instance Alternative Evt
+	where
+	  {-# INLINE empty  #-}
+	  {-# INLINE (<|>)  #-}
+	  empty = neverEvt
+	  (<|>) = chooseEvt
 
 ----------------------------------------------------------------------
 -- Exceptions.

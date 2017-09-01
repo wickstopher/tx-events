@@ -1,5 +1,5 @@
 Name:               tx-events
-Version:            0.4
+Version:            0.4.1
 Cabal-Version:      >= 1.6
 Build-Type:         Simple
 License:            BSD3
@@ -37,7 +37,7 @@ Library
     Control.Concurrent.TxEvent.IO,
     Control.Concurrent.TxEvent.CML.Simple,
     Control.Concurrent.TxEvent.CML.Full
-  Build-Depends:    base ==4.3.*, containers, stm, time
+  Build-Depends:    base, containers, stm, time
   Other-Modules:
     Control.Concurrent.TxEvent.TriSChan.Ver0,
     Control.Concurrent.TxEvent.TriSChan.Ver1,
