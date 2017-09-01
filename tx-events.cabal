@@ -1,0 +1,54 @@
+Name:               tx-events
+Version:            0.4
+Cabal-Version:      >= 1.6
+Build-Type:         Simple
+License:            BSD3
+License-File:       LICENSE
+Author:             Edward Amsden, Kevin Donnelly, Matthew Fluet
+Copyright:
+        2006,2007 Kevin Donnelly, Matthew Fluet
+        2011 Edward Amsden, Matthew Fluet
+Maintainer:         Matthew Fluet <Matthew.Fluet@gmail.com>
+Stability:          Experimental
+Homepage:           http://www.cs.rit.edu/~mtf/research/tx-events
+Package-url:        http://www.cs.rit.edu/~mtf/research/tx-events/tx-events-0.4.tgz
+Synopsis:           Transactional Events
+Description:
+        This library provides /first-class synchronous events/ in the
+        style of CML (<http://cml.cs.uchicago.edu/>), but generalizes
+        the concept to allow /multiple/, /dependent/ events to be
+        combined in a single event.  The semantics of these
+        generalized events ensures an /all-or-nothing/ transactional
+        property -- either all of the constituent events synchronize
+        or none of them synchronize.  When the constituent events
+        include synchronous message passing, the semantics ensures
+        that no thread is able to complete its synchronization until
+        all of its (transitive) communications partners are willing to
+        commit to a compatible synchronization. 
+Category:           Concurrency
+Extra-Source-Files: LICENSE examples/*.hs
+
+Library
+  Exposed-Modules:
+    Control.Concurrent.TxEvent,
+    Control.Concurrent.TxEvent.TriSChan,
+    Control.Concurrent.TxEvent.NWaySChan,
+    Control.Concurrent.TxEvent.AckVar,
+    Control.Concurrent.TxEvent.IO,
+    Control.Concurrent.TxEvent.CML.Simple,
+    Control.Concurrent.TxEvent.CML.Full
+  Build-Depends:    base ==4.3.*, containers, stm, time
+  Other-Modules:
+    Control.Concurrent.TxEvent.TriSChan.Ver0,
+    Control.Concurrent.TxEvent.TriSChan.Ver1,
+    Control.Concurrent.TxEvent.TriSChan.Ver2,
+    Control.Concurrent.TxEvent.TriSChan.Ver3,
+    Control.Concurrent.TxEvent.TriSChan.Ver4,
+    Control.Concurrent.TxEvent.TriSChan.Ver5,
+    Control.Concurrent.TxEvent.NWaySChan.Ver0,
+    Control.Concurrent.TxEvent.NWaySChan.Ver1,
+    Control.Concurrent.TxEvent.NWaySChan.Ver2,
+    Control.Concurrent.TxEvent.NWaySChan.Ver3,
+    Control.Concurrent.TxEvent.NWaySChan.Ver4,
+    Control.Concurrent.TxEvent.NWaySChan.Ver5
+  -- GHC-Options:      -Wall
