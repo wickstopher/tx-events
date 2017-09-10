@@ -762,17 +762,17 @@ instance Functor Evt
       {-# INLINE fmap   #-}
       fmap f evt = evt >>= return . f
 instance Applicative Evt
-	where
-	  {-# INLINE pure   #-}
-	  {-# INLINE (<*>)  #-}
-	  pure = alwaysEvt
-	  (<*>) = ap
+    where
+      {-# INLINE pure   #-}
+      {-# INLINE (<*>)  #-}
+      pure = alwaysEvt
+      (<*>) = ap
 instance Alternative Evt
-	where
-	  {-# INLINE empty  #-}
-	  {-# INLINE (<|>)  #-}
-	  empty = neverEvt
-	  (<|>) = chooseEvt
+    where
+      {-# INLINE empty  #-}
+      {-# INLINE (<|>)  #-}
+      empty = neverEvt
+      (<|>) = chooseEvt
 
 ----------------------------------------------------------------------
 -- Exceptions.
